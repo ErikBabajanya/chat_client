@@ -3,11 +3,12 @@ import Header from "./header/header";
 import List from "./list/list";
 import { Chat } from "@/context/chat.context";
 import Settings from "./settings/settgins";
+import { SettingsContext } from "@/context/settings.context";
 
 export default function Chatlist() {
-  const chatContext = useContext(Chat);
-  if (!chatContext) return;
-  const { settings } = chatContext;
+  const settingsContext = useContext(SettingsContext);
+  if (!settingsContext) return;
+  const { settings } = settingsContext;
   return (
     <div className="w-full h-full">
       {settings ? (

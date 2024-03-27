@@ -1,29 +1,21 @@
 "use client";
 import * as React from "react";
-import { Message } from "postcss";
 import { useEffect, useState } from "react";
 import { useContext } from "react";
 import { Auth } from "./auth.context";
 import { User } from "@/interface/user.interface";
 import Chat from "@/interface/chat.interface";
+import { MyChatList } from "@/interface/myChatList.interface";
+import { io } from "socket.io-client";
 
-export interface MyChatList {
-  user: {
-    _id: string;
-    firstName: string;
-    lastName: string;
-    username: string;
-    phone: string;
-    color: string;
-  };
-  lastMsg: {
-    _id: string;
-    chatId: string;
-    senderId: string;
-    text: string;
-    createdAt: string;
-    updatedAt: string;
-  };
+interface Message {
+  _id: string;
+  chatId: string;
+  senderId: string;
+  recipientId: string;
+  text: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export type ChatContextType = {
@@ -36,6 +28,8 @@ export type ChatContextType = {
   openSettings: () => void;
 
   settings: boolean;
+
+  newMsg: Message | null;
 };
 
 export const Chat = React.createContext<ChatContextType | null>(null);
@@ -44,7 +38,7 @@ const ChatProvider: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   const auth = useContext(Auth);
   if (!auth) return;
-  const { token } = auth;
+  const { token, myUser } = auth;
   const endpoint = "http://localhost:5000/chat";
   const [chatList, setChatList] = useState<MyChatList[] | null>(null);
   useEffect(() => {
@@ -80,6 +74,25 @@ const ChatProvider: React.FC<{ children: React.ReactNode }> = ({
     setChat(data);
     setChatUser(user);
   };
+  const [newMsg, setNewMsg] = useState<Message | null>(null);
+  useEffect(() => {
+    const newSocket = io("ws://localhost:5000", {
+      query: { userId: myUser?._id },
+    });
+    newSocket.on("connect", () => {
+      console.log("connect from server");
+    });
+    newSocket.on("disconnect", () => {
+      console.log("Disconnected from server");
+    });
+    newSocket.on("chat message", (message: any) => {
+      console.log(message.message);
+      setNewMsg(message.message);
+    });
+    return () => {
+      newSocket.disconnect();
+    };
+  }, [chatList]);
 
   const closeChat = () => {
     setChat(null);
@@ -102,6 +115,7 @@ const ChatProvider: React.FC<{ children: React.ReactNode }> = ({
         openSettings,
 
         settings,
+        newMsg,
       }}
     >
       {children}

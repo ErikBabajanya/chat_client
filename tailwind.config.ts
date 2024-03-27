@@ -9,6 +9,12 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      transitionProperty: {
+        'bottom': 'bottom',
+      },
+      transitionDuration: {
+        'slow': '0.5s',
+      },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":

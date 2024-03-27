@@ -9,15 +9,35 @@ import {
 import { User } from "@/interface/user.interface";
 import { Auth } from "@/context/auth.context";
 import { Chat } from "@/context/chat.context";
+import { FaUser } from "react-icons/fa";
+import { MessagesContext } from "@/context/messages.contex";
+import { MyChatList } from "@/interface/myChatList.interface";
+
 const List = () => {
   const auth = useContext(Auth);
   const chat = useContext(Chat);
-  if (!auth || !chat) return;
-  const { chatList, findUserChat } = chat;
-  const { token } = auth;
-
-  const text =
-    "Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt, consequuntur. Placeat sequi, pariatur laboriosam laborum necessitatibus amet architecto soluta commodi nostrum odit, eos vel praesentium doloremque possimus libero quibusdam corrupti.";
+  const messagesContext = useContext(MessagesContext);
+  if (!auth || !chat || !messagesContext) return;
+  const { chatList, findUserChat, newMsg } = chat;
+  const { newMessage } = messagesContext;
+  const [MyChatList, setMyChatList] = useState<MyChatList[] | undefined>(
+    undefined
+  );
+  useEffect(() => {
+    const x = chatList?.map((chat) => {
+      if (chat.lastMsg.chatId == newMsg?.chatId) {
+        const y = (chat.lastMsg = newMsg);
+        return {
+          user: chat.user,
+          lastMsg: newMsg,
+        };
+      } else {
+        return chat;
+      }
+    });
+    console.log(x);
+    setMyChatList(x);
+  }, [newMsg]);
   return (
     <div
       className="w-full relative overflow-y-auto overflow-x-hidden"
@@ -35,9 +55,12 @@ const List = () => {
                 onClick={() => findUserChat(user.user)}
               ></button>
               <div className="w-full relative flex items-center">
-                <div className="w-[54px] h-[54px] bg-[#333333] rounded-[50%] left-2 absolute sm:ml-[9px] flex justify-center items-center">
+                <div className="w-[54px] h-[54px] bg-profile-color rounded-[50%] left-2 absolute sm:ml-[9px] flex justify-center items-center">
                   <h1 className="font-medium text-[1.25rem] text-primary-text-color">
-                    <div></div>
+                    <div>
+                      {user.user.firstName?.charAt(0) +
+                        user.user.lastName?.charAt(0) || <FaUser />}
+                    </div>
                   </h1>
                 </div>
                 <div className="w-full pl-[72px] mr-3 sm:pl-[80px]">

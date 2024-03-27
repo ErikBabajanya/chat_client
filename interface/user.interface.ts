@@ -4,5 +4,5 @@ export interface User {
         lastName: string,
         username: string,
         phone: string,
-        color: string
+        bio: string
 }

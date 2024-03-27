@@ -8,9 +8,13 @@ import io from "socket.io-client";
 import { query } from "express";
 
 interface Message {
+  _id: string;
   chatId: string;
   senderId: string;
+  recipientId: string;
   text: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 interface Text {
@@ -23,6 +27,7 @@ export type MessagesContextType = {
   updateMessageInfo: (info: Text) => void;
   messageInfo: Text | null;
   sendMessage: (text: string) => void;
+  newMessage: Message | null;
 };
 
 export const MessagesContext = React.createContext<MessagesContextType | null>(
@@ -39,6 +44,7 @@ const MessagesProvider: React.FC<{ children: React.ReactNode }> = ({
   const { myUser, token } = auth;
   const [messages, setMessages] = useState<Message[] | null>(null);
   const [messageInfo, setMessageInfo] = useState<Text | null>(null);
+  const [newMessage, setNewMessage] = useState<Message | null>(null);
   const updateMessageInfo = (info: Text) => {
     setMessageInfo(info);
   };
@@ -57,8 +63,9 @@ const MessagesProvider: React.FC<{ children: React.ReactNode }> = ({
     newSocket.on("disconnect", () => {
       console.log("Disconnected from server");
     });
-    newSocket.on("chat message", (msg: Message) => {
-      setMessages((prevMessages) => [...(prevMessages || []), msg]);
+    newSocket.on("chat message", (message: any) => {
+      setMessages((prevMessages) => [...(prevMessages || []), message.message]);
+      setNewMessage(message.message);
     });
 
     return () => {
@@ -85,10 +92,17 @@ const MessagesProvider: React.FC<{ children: React.ReactNode }> = ({
   const sendMessage = async (text: string) => {
     if (!text) return;
     const socket = io("ws://localhost:5000");
+    let recipientId;
+    if (chat?.members[0] == myUser?._id) {
+      recipientId = chat?.members[1];
+    } else {
+      recipientId = chat?.members[0];
+    }
     socket.emit("chat message", {
       text: text,
       id: chat?._id,
       senderId: myUser?._id,
+      recipientId: recipientId,
     });
   };
 
@@ -99,6 +113,7 @@ const MessagesProvider: React.FC<{ children: React.ReactNode }> = ({
         updateMessageInfo,
         messageInfo,
         sendMessage,
+        newMessage,
       }}
     >
       {children}

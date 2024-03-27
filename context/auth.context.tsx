@@ -3,6 +3,7 @@ import * as React from "react";
 import { Message } from "postcss";
 import { useEffect, useState } from "react";
 import { User } from "@/interface/user.interface";
+import { json } from "body-parser";
 
 export type AuthContextType = {
   login: (e: React.FormEvent) => void;
@@ -17,6 +18,7 @@ export type AuthContextType = {
   verifyToken: string | null;
 
   myUser: User | null;
+  changeUserInfo: (changeInfo: any) => void;
 };
 
 interface Phone {
@@ -123,6 +125,20 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     };
     findMyUser();
   }, [token]);
+
+  const changeUserInfo = async (changeInfo: any) => {
+    const response = await fetch(`${endpoint}/user/chageMyUserInfo`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: `${token}`,
+      },
+      body: JSON.stringify({ formdata: changeInfo }),
+    });
+    const data = await response.json();
+    console.log(data);
+    setMyuser(data);
+  };
   return (
     <Auth.Provider
       value={{
@@ -138,6 +154,7 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         verifyToken,
 
         myUser,
+        changeUserInfo,
       }}
     >
       {children}

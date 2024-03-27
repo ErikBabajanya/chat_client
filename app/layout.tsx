@@ -4,6 +4,7 @@ import "./globals.css";
 import AuthProvider from "@/context/auth.context";
 import ChatProvider from "@/context/chat.context";
 import MessagesProvider from "@/context/messages.contex";
+import SettingsProvider from "@/context/settings.context";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,7 +23,9 @@ export default function RootLayout({
       <body className={inter.className}>
         <AuthProvider>
           <ChatProvider>
-            <MessagesProvider>{children}</MessagesProvider>
+            <MessagesProvider>
+              <SettingsProvider>{children}</SettingsProvider>
+            </MessagesProvider>
           </ChatProvider>
         </AuthProvider>
       </body>

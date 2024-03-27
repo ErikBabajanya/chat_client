@@ -3,10 +3,11 @@ import { IoMenu } from "react-icons/io5";
 import { IoSearch } from "react-icons/io5";
 import { IoMdSettings } from "react-icons/io";
 import { Chat } from "@/context/chat.context";
+import { SettingsContext } from "@/context/settings.context";
 export default function Header() {
-  const chatContext = useContext(Chat);
-  if (!chatContext) return;
-  const { openSettings } = chatContext;
+  const settingsContext = useContext(SettingsContext);
+  if (!settingsContext) return;
+  const { openSettings } = settingsContext;
   const [menu, setMenu] = useState<boolean>(false);
   return (
     <div className="px-4 h-14 w-full sm:px-2 sm:w-full flex items-center">
