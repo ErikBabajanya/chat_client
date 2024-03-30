@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { User } from "@/interface/user.interface";
 import { Auth } from "@/context/auth.context";
 import { Chat } from "@/context/chat.context";
@@ -16,11 +16,22 @@ export default function Messages() {
   const { chat } = chatContext;
   const { messages } = messagesContext;
   const { myUser } = auth;
+  const messagesEndRef = useRef<HTMLDivElement | null>(null);
+
   useEffect(() => {
-    console.log(messages);
+    scrollToBottom();
   }, [messages]);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({
+      behavior: "smooth",
+      block: "end",
+      inline: "nearest",
+    });
+  };
   return (
     <div className="w-full h-full flex flex-col-reverse overflow-y-auto scroll">
+      <div ref={messagesEndRef} />
       {messages
         ?.slice()
         .reverse()
@@ -31,7 +42,7 @@ export default function Messages() {
                 key={key}
                 className={`2xl:w-[455px] xl:w-full min-w-[56px] max-w-full flex justify-end mb-1 `}
               >
-                <div className="max-w-[420px]  text-primary-text-color bg-message-out-background-color p-1.5 rounded-xl">
+                <div className="max-w-[420px]  text-primary-text-color bg-message-out-background-color font-cursive p-1.5 rounded-xl">
                   <div>{message.text}</div>
                 </div>
               </div>
@@ -39,7 +50,7 @@ export default function Messages() {
           } else {
             return (
               <div key={key} className="min-w-[56px] max-w-full mb-1 flex">
-                <div className="max-w-[420px] text-primary-text-color bg-surface-color p-1.5 rounded-xl">
+                <div className="max-w-[420px] text-primary-text-color bg-surface-color font-cursive p-1.5 rounded-xl">
                   <div>{message.text}</div>
                 </div>
               </div>

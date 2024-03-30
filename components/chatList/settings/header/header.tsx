@@ -8,7 +8,7 @@ import { CiMenuKebab } from "react-icons/ci";
 export default function Header() {
   const settingsContext = useContext(SettingsContext);
   if (!settingsContext) return;
-  const { avatarFull, openSettings } = settingsContext;
+  const { avatarFull, openSettings, openProfile } = settingsContext;
   return (
     <div
       className={`w-full h-[56px] px-[16px] flex items-center  bg-surface-color ${
@@ -17,7 +17,7 @@ export default function Header() {
     >
       <button
         onClick={openSettings}
-        className={`w-[40px] h-[40px] p-2 relative rounded-[50%] mr-2 ${
+        className={`w-[40px] h-[40px] p-2 relative rounded-full mr-2 ${
           avatarFull
             ? "hover:bg-[#ffffff14]"
             : "hover:bg-light-secondary-text-color"
@@ -35,7 +35,8 @@ export default function Header() {
       </div>
       <div className="flex absolute right-0">
         <button
-          className={`w-[40px] h-[40px] p-2 relative rounded-[50%] mr-2 ${
+          onClick={openProfile}
+          className={`w-[40px] h-[40px] p-2 relative rounded-full mr-2 ${
             avatarFull
               ? "hover:bg-[#ffffff14]"
               : "hover:bg-light-secondary-text-color"
@@ -49,7 +50,7 @@ export default function Header() {
           />
         </button>
         <button
-          className={`w-[40px] h-[40px] p-2 relative rounded-[50%] mr-2 ${
+          className={`w-[40px] h-[40px] p-2 relative rounded-full mr-2 ${
             avatarFull
               ? "hover:bg-[#ffffff14]"
               : "hover:bg-light-secondary-text-color"

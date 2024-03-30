@@ -56,13 +56,9 @@ const MessagesProvider: React.FC<{ children: React.ReactNode }> = ({
     });
     const id = chat._id;
 
-    newSocket.on("connect", () => {
-      console.log(id);
-    });
+    newSocket.on("connect", () => {});
 
-    newSocket.on("disconnect", () => {
-      console.log("Disconnected from server");
-    });
+    newSocket.on("disconnect", () => {});
     newSocket.on("chat message", (message: any) => {
       setMessages((prevMessages) => [...(prevMessages || []), message.message]);
       setNewMessage(message.message);

@@ -32,7 +32,7 @@ export default function Header() {
       <div className="w-10 h-10 ">
         <button
           onClick={() => setMenu(!menu)}
-          className="p-2 rounded-[50%] transition-colors duration-300 hover:bg-light-secondary-text-color "
+          className="p-2 rounded-full transition-colors duration-300 hover:bg-light-secondary-text-color "
         >
           <IoMenu className="w-6 h-6 text-gray-400" />
         </button>
@@ -45,8 +45,8 @@ export default function Header() {
         <div className="absolute w-6 h-6 left-5">
           <IoSearch className="text-gray-400 w-6 h-6" />
         </div>
-        <div className="w-8 h-8 rounded-[50%] bg-secondary-color absolute right-3 justify-center items-center flex">
-          <div className="w-7 h-7 bg-black rounded-[50%]"></div>
+        <div className="w-8 h-8 rounded-full bg-secondary-color absolute right-3 justify-center items-center flex">
+          <div className="w-7 h-7 bg-black rounded-full"></div>
         </div>
       </div>
     </div>

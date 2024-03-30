@@ -20,23 +20,23 @@ const List = () => {
   if (!auth || !chat || !messagesContext) return;
   const { chatList, findUserChat, newMsg } = chat;
   const { newMessage } = messagesContext;
-  const [MyChatList, setMyChatList] = useState<MyChatList[] | undefined>(
+  const { myUser } = auth;
+  const [MyChatsList, setMyChatsList] = useState<MyChatList[] | undefined>(
     undefined
   );
   useEffect(() => {
-    const x = chatList?.map((chat) => {
+    const setNewMessages = chatList?.map((chat) => {
       if (chat.lastMsg.chatId == newMsg?.chatId) {
-        const y = (chat.lastMsg = newMsg);
+        const msg = (chat.lastMsg = newMsg);
         return {
           user: chat.user,
-          lastMsg: newMsg,
+          lastMsg: msg,
         };
       } else {
         return chat;
       }
     });
-    console.log(x);
-    setMyChatList(x);
+    setMyChatsList(setNewMessages);
   }, [newMsg]);
   return (
     <div
@@ -55,18 +55,28 @@ const List = () => {
                 onClick={() => findUserChat(user.user)}
               ></button>
               <div className="w-full relative flex items-center">
-                <div className="w-[54px] h-[54px] bg-profile-color rounded-[50%] left-2 absolute sm:ml-[9px] flex justify-center items-center">
-                  <h1 className="font-medium text-[1.25rem] text-primary-text-color">
-                    <div>
-                      {user.user.firstName?.charAt(0) +
-                        user.user.lastName?.charAt(0) || <FaUser />}
-                    </div>
-                  </h1>
+                <div className="w-[54px] h-[54px] bg-profile-color rounded-full left-2 absolute sm:ml-[9px] flex justify-center items-center">
+                  {(user.user.picture && (
+                    <img
+                      className="w-[54px] h-[54px] rounded-full"
+                      src={`data:image/jpeg;base64,${user.user?.picture}`}
+                      alt="User Profile"
+                    />
+                  )) ||
+                    (user.user.firstName && (
+                      <h1 className="font-medium text-[1.25rem] text-primary-text-color">
+                        {user.user.firstName?.charAt(0) +
+                          user.user.lastName?.charAt(0)}
+                      </h1>
+                    )) || <FaUser />}
                 </div>
                 <div className="w-full pl-[72px] mr-3 sm:pl-[80px]">
                   <div className="w-full flex justify-between">
                     <div className="font-medium text-primary-text-color">
-                      {user.user.firstName || user.user.phone}
+                      {(user.user.firstName &&
+                        user.user.firstName + " " + user.user.lastName) ||
+                        user.user.lastName ||
+                        user.user.phone}
                     </div>
                     <div className="text-secondary-text-color text-[12px] leading-[16px]">
                       {new Date(user.lastMsg.updatedAt).toLocaleTimeString([], {
@@ -77,7 +87,7 @@ const List = () => {
                   </div>
                   <div className="w-full text-base text-secondary-text-color">
                     <div className="max-w-full text-base text-secondary-text-color overflow-hidden whitespace-nowrap">
-                      {user.lastMsg.text}
+                      {user?.lastMsg.text}
                     </div>
                   </div>
                 </div>

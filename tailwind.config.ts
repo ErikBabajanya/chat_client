@@ -9,6 +9,11 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        'rubik': ['"Rubik"', 'sans-serif'],
+        'shadows-into-light': ['"Shadows Into Light"', 'cursive'],
+        'cursive': ['"Shadows Into Light"', 'cursive'],
+      },
       transitionProperty: {
         'bottom': 'bottom',
       },

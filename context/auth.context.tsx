@@ -5,6 +5,13 @@ import { useEffect, useState } from "react";
 import { User } from "@/interface/user.interface";
 import { json } from "body-parser";
 
+interface UserFormValues {
+  picture: File | null;
+  firstName: string;
+  lastName: string;
+  bio: string;
+}
+
 export type AuthContextType = {
   login: (e: React.FormEvent) => void;
   updateLoginInfo: (info: Phone) => void;
@@ -39,13 +46,10 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   const [loginUserInfo, setLoginUserInfo] = useState<Phone>({
     phone: "",
   });
-
   useEffect(() => {
     const tokenString = localStorage.getItem("token");
-    console.log(tokenString);
     if (!tokenString) return;
     setToken(JSON.parse(tokenString));
-    console.log(tokenString);
   }, []);
 
   const updateLoginInfo = (info: Phone) => {
@@ -53,6 +57,7 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   };
   const login = async (e: React.FormEvent) => {
     e.preventDefault();
+    console.log(loginUserInfo);
     try {
       const response = await fetch(`${endpoint}/auth`, {
         method: "POST",
@@ -64,7 +69,6 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
       if (response.ok) {
         const data = await response.json();
-        console.log(data);
         setVerifyToken(data.token);
       } else {
         console.error("Authentication failed");
@@ -80,12 +84,11 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const updateVerifyInfo = (info: Code) => {
     setCodeUser(info);
-    console.log(loginUserInfo);
   };
 
   const verify = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(11);
+    console.log(codeUser);
     try {
       const response = await fetch(`${endpoint}/auth/verify`, {
         method: "POST",
@@ -98,7 +101,6 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
       if (response.ok) {
         const data = await response.json();
-        console.log(data);
         localStorage.setItem("token", JSON.stringify(data.token));
         setToken(data.token);
       } else {
@@ -121,20 +123,33 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       });
 
       const data = await response.json();
+      console.log(data);
       setMyuser(data);
     };
     findMyUser();
   }, [token]);
 
-  const changeUserInfo = async (changeInfo: any) => {
+  const changeUserInfo = async (changeInfo: UserFormValues) => {
+    console.log("Change Info:", changeInfo);
+
+    const formData = new FormData();
+
+    formData.append("firstName", changeInfo.firstName);
+    formData.append("lastName", changeInfo.lastName);
+    formData.append("bio", changeInfo.bio);
+    if (changeInfo?.picture) {
+      formData.append("picture", changeInfo?.picture);
+    }
+
+    console.log(formData.get("changeInfo"));
     const response = await fetch(`${endpoint}/user/chageMyUserInfo`, {
       method: "PUT",
       headers: {
-        "Content-Type": "application/json",
         authorization: `${token}`,
       },
-      body: JSON.stringify({ formdata: changeInfo }),
+      body: formData,
     });
+
     const data = await response.json();
     console.log(data);
     setMyuser(data);

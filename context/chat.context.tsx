@@ -70,7 +70,6 @@ const ChatProvider: React.FC<{ children: React.ReactNode }> = ({
       },
     });
     const data = await response.json();
-    console.log(data);
     setChat(data);
     setChatUser(user);
   };
@@ -79,14 +78,9 @@ const ChatProvider: React.FC<{ children: React.ReactNode }> = ({
     const newSocket = io("ws://localhost:5000", {
       query: { userId: myUser?._id },
     });
-    newSocket.on("connect", () => {
-      console.log("connect from server");
-    });
-    newSocket.on("disconnect", () => {
-      console.log("Disconnected from server");
-    });
+    newSocket.on("connect", () => {});
+    newSocket.on("disconnect", () => {});
     newSocket.on("chat message", (message: any) => {
-      console.log(message.message);
       setNewMsg(message.message);
     });
     return () => {
@@ -102,7 +96,6 @@ const ChatProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const openSettings = () => {
     setSettings(!settings);
-    console.log(settings);
   };
   return (
     <Chat.Provider

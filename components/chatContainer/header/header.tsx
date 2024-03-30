@@ -22,17 +22,30 @@ export default function MessagesHeader() {
             <div className="max-w-full h-full py-1 pl-[3px] flex items-center">
               <button
                 onClick={closeChat}
-                className="lg:flex hidden w-[40px] h-[40px] p-2 relative rounded-[50%] hover:bg-light-secondary-text-color mr-2"
+                className="lg:flex hidden w-[40px] h-[40px] p-2 relative rounded-full hover:bg-light-secondary-text-color mr-2"
               >
                 <div className="w-[40px] h-[40px]"></div>
                 <IoMdArrowRoundBack className="w-6 h-6 absolute top-2 text-secondary-text-color" />
               </button>
               <div className="flex items-center">
-                <div className="min-w-[42px] h-[42px] rounded-[50%] bg-profile-color flex justify-center items-center">
-                  <h1 className="font-medium text-[1.25rem] text-primary-text-color">
-                    {chatUser.firstName?.charAt(0) +
-                      chatUser.lastName?.charAt(0) || <FaUser />}
-                  </h1>
+                <div
+                  className={`min-w-[42px] h-[42px] rounded-full flex justify-center items-center ${
+                    chatUser.picture ? "" : "bg-profile-color"
+                  }`}
+                >
+                  {(chatUser.picture && (
+                    <img
+                      className="w-[42px] h-[42px] rounded-full"
+                      src={`data:image/jpeg;base64,${chatUser.picture}`}
+                      alt="User Profile"
+                    />
+                  )) ||
+                    (chatUser.firstName && (
+                      <h1 className="font-medium text-[1.25rem] text-primary-text-color">
+                        {chatUser.firstName?.charAt(0) +
+                          chatUser.lastName?.charAt(0)}
+                      </h1>
+                    )) || <FaUser />}
                 </div>
                 <div className="w-full h-full pl-[18px]">
                   <div className="w-full">
@@ -50,17 +63,17 @@ export default function MessagesHeader() {
             </div>
             <div className="w-[144px] h-[40px] flex justify-end	">
               <div className="w-[40px] h-[40px]">
-                <button className="w-[40px] h-[40px] p-2 relative rounded-[50%] transition-colors duration-300 hover:bg-light-secondary-text-color">
+                <button className="w-[40px] h-[40px] p-2 relative rounded-full transition-colors duration-300 hover:bg-light-secondary-text-color">
                   <IoCallOutline className="w-6 h-6 absolute top-2 text-secondary-text-color" />
                 </button>
               </div>
               <div className="w-[40px] h-[40px]">
-                <button className="w-[40px] h-[40px] p-2 relative rounded-[50%] transition-colors duration-300 hover:bg-light-secondary-text-color">
+                <button className="w-[40px] h-[40px] p-2 relative rounded-full transition-colors duration-300 hover:bg-light-secondary-text-color">
                   <IoSearch className="w-6 h-6 absolute top-2 text-secondary-text-color" />
                 </button>
               </div>
               <div className="w-[40px] h-[40px]">
-                <button className="w-[40px] h-[40px] p-2 relative rounded-[50%] transition-colors duration-300 hover:bg-light-secondary-text-color">
+                <button className="w-[40px] h-[40px] p-2 relative rounded-full transition-colors duration-300 hover:bg-light-secondary-text-color">
                   <CiMenuKebab className="w-6 h-6 absolute top-2 text-secondary-text-color" />
                 </button>
               </div>
