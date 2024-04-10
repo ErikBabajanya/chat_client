@@ -31,7 +31,9 @@ export default function Header() {
         />
       </button>
       <div className="ml-[30px]">
-        <h1 className="font-medium text-[1.25rem] text-[#ffffff]">Settings</h1>
+        <h1 className="font-medium text-[1.25rem] text-[#ffffff] select-none">
+          Settings
+        </h1>
       </div>
       <div className="flex absolute right-0">
         <button

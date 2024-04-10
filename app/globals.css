@@ -26,19 +26,28 @@ body{
     }
 }
 
+.radius {
+    border-top-left-radius: 10px; /* Adjust as needed */
+    border-top-right-radius: 10px; /* Adjust as needed */
+  }
+
 ::-webkit-scrollbar {
     width: 4px; 
 }
 
 ::-webkit-scrollbar-track {
-    background: transparent; /* color of the tracking area */
+    background: transparent; 
 }
 
 ::-webkit-scrollbar-thumb {
-    background-color: #ffffff33; /* color of the thumb */
-    border-radius: 2px; /* roundness of the thumb */
-    border: 1px solid transparent; /* border around the thumb */
+    background-color:transparent ;
 }
+:hover.over::-webkit-scrollbar-thumb {
+    border-radius: 2px; 
+    border: 1px solid transparent;
+    background: #ffffff33;
+}
+
 
 ::-webkit-scrollbar-thumb:hover {
     background-color: #ffffff66; /* color of the thumb on hover */
@@ -70,4 +79,8 @@ body{
 
 .avatar-edit-icon {
     transition: transform 0.3s ease; 
+}
+
+.content {
+    width: fit-content;
 }

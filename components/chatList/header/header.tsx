@@ -1,14 +1,24 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { IoMenu } from "react-icons/io5";
 import { IoSearch } from "react-icons/io5";
 import { IoMdSettings } from "react-icons/io";
 import { Chat } from "@/context/chat.context";
 import { SettingsContext } from "@/context/settings.context";
+import { IoMdArrowRoundBack } from "react-icons/io";
 export default function Header() {
   const settingsContext = useContext(SettingsContext);
-  if (!settingsContext) return;
+  const chatContext = useContext(Chat);
+  if (!settingsContext || !chatContext) return;
   const { openSettings } = settingsContext;
+  const {
+    openSeacrch,
+    searchChat,
+    closeSeacrch,
+    updateInputValueInfo,
+    inputValue,
+  } = chatContext;
   const [menu, setMenu] = useState<boolean>(false);
+
   return (
     <div className="px-4 h-14 w-full sm:px-2 sm:w-full flex items-center">
       {menu && (
@@ -29,25 +39,50 @@ export default function Header() {
           </div>
         </div>
       )}
-      <div className="w-10 h-10 ">
-        <button
-          onClick={() => setMenu(!menu)}
-          className="p-2 rounded-full transition-colors duration-300 hover:bg-light-secondary-text-color "
-        >
-          <IoMenu className="w-6 h-6 text-gray-400" />
-        </button>
-      </div>
+      {searchChat ? (
+        <div className="w-10 h-10 ">
+          <button
+            onClick={closeSeacrch}
+            className="p-2 rounded-full transition-colors duration-300 hover:bg-light-secondary-text-color "
+          >
+            <IoMdArrowRoundBack className="w-6 h-6 text-gray-400" />
+          </button>
+        </div>
+      ) : (
+        <div className="w-10 h-10 ">
+          <button
+            onClick={() => setMenu(!menu)}
+            className="p-2 rounded-full transition-colors duration-300 hover:bg-light-secondary-text-color "
+          >
+            <IoMenu className="w-6 h-6 text-gray-400" />
+          </button>
+        </div>
+      )}
+
       <div className="relative w-full h-[42px] px-[7px] flex items-center justify-end">
         <input
-          className="pl-11 w-full h-full rounded-[22px] bg-input-search-background-color text-primary-text-color transition-colors duration-300 border border-[1px] border-[#2f2f2f] hover:border-secondary-color focus:border-primary-color focus:border-2 focus:outline-none"
+          onClick={openSeacrch}
+          onChange={(e) =>
+            updateInputValueInfo({
+              ...inputValue,
+              value: e.target.value,
+            })
+          }
+          className="pl-11 w-full h-full rounded-[22px] 
+          bg-input-search-background-color text-primary-text-color 
+          transition-colors duration-300 border border-[1px] border-[#2f2f2f] 
+          hover:border-secondary-color focus:border-primary-color focus:border-2 focus:outline-none"
           placeholder="Search"
         />
         <div className="absolute w-6 h-6 left-5">
           <IoSearch className="text-gray-400 w-6 h-6" />
         </div>
-        <div className="w-8 h-8 rounded-full bg-secondary-color absolute right-3 justify-center items-center flex">
-          <div className="w-7 h-7 bg-black rounded-full"></div>
-        </div>
+        <button
+          className="w-8 h-8 rounded-full bg-secondary-color absolute 
+        right-3 justify-center items-center flex "
+        >
+          <div className="w-7 h-7 flex justify-center rounded-full">x</div>
+        </button>
       </div>
     </div>
   );

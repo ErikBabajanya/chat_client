@@ -39,14 +39,12 @@ export default function Content() {
         bio: myUser?.bio || "",
       },
     });
-
   const { isDirty } = formState;
   const onSubmit = async (data: any) => {
     setLoading(true);
     await changeUserInfo(data);
     setLoading(false);
     openProfile();
-    console.log(data);
   };
 
   const handleButtonClick = () => {
@@ -57,7 +55,7 @@ export default function Content() {
   };
 
   const handleFile = (e: ChangeEvent<HTMLInputElement>) => {
-    setValue("picture", e.target.files?.[0] ?? null);
+    setValue("picture", e.target.files?.[0] ?? null, { shouldDirty: true });
   };
 
   const picture = watch("picture");

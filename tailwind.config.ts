@@ -38,25 +38,23 @@ const config: Config = {
         "secondary-text-color": "#aaaaaa",
         "light-filled-secondary-text-color": "#2b2b2b",
         "message-out-background-color":"#8774e1",
-        "border-color": "#0f0f0f"
-
+        "border-color": "#0f0f0f",
+        "message-highlighting-color" : "hsla(284.8192771084337, 49.74418604651163%, 37.59803921568628%, .4)",
+        "danger-color": "#ff595a",
+        "light-danger-color" : "rgba(255, 89, 90, 0.08)",
+        "light-primary-color" : "rgba(135, 116, 225, 0.08)"
       }
     },
     screens: {
       "2xl": { max: "1535px" },
-      // => @media (max-width: 1535px) { ... }
-
-      "xl": { max: "1279px" },
-      // => @media (max-width: 1279px) { ... }
+      
+      "xl": { max: "1271px" },
 
       "lg": { max: "930px" },
-      // => @media (max-width: 1023px) { ... }
 
       "md": { max: "767px" },
-      // => @media (max-width: 767px) { ... }
 
       "sm": { max: "600px" },
-      // => @media (max-width: 639px) { ... }
     },
   },
   plugins: [],

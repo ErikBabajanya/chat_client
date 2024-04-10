@@ -1,6 +1,6 @@
-interface Chat {
+interface ChatInterface {
     _id: string
     members: string[] 
 }
 
-export default Chat
+export default ChatInterface

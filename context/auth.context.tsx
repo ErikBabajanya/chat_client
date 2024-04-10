@@ -57,7 +57,6 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   };
   const login = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(loginUserInfo);
     try {
       const response = await fetch(`${endpoint}/auth`, {
         method: "POST",
@@ -88,7 +87,6 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const verify = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(codeUser);
     try {
       const response = await fetch(`${endpoint}/auth/verify`, {
         method: "POST",
@@ -123,15 +121,12 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       });
 
       const data = await response.json();
-      console.log(data);
       setMyuser(data);
     };
     findMyUser();
   }, [token]);
 
   const changeUserInfo = async (changeInfo: UserFormValues) => {
-    console.log("Change Info:", changeInfo);
-
     const formData = new FormData();
 
     formData.append("firstName", changeInfo.firstName);
@@ -141,7 +136,6 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       formData.append("picture", changeInfo?.picture);
     }
 
-    console.log(formData.get("changeInfo"));
     const response = await fetch(`${endpoint}/user/chageMyUserInfo`, {
       method: "PUT",
       headers: {
@@ -151,7 +145,6 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     });
 
     const data = await response.json();
-    console.log(data);
     setMyuser(data);
   };
   return (

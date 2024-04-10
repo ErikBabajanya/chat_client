@@ -6,15 +6,21 @@ import { useContext } from "react";
 import Chatlist from "@/components/chatList/chat.list";
 import { Chat } from "@/context/chat.context";
 import Container from "@/components/chatContainer/container";
+import { MessagesContext } from "@/context/messages.contex";
 export default function Home() {
   const auth = useContext(Auth);
   const chatContext = useContext(Chat);
-  if (!auth || !chatContext) return;
+  const messagesContext = useContext(MessagesContext);
+  if (!auth || !chatContext || !messagesContext) return;
   const { token } = auth;
   const { chat } = chatContext;
+  const { onMouseUp } = messagesContext;
   const [darck, setDarck] = useState<boolean>(true);
   return (
-    <div className="w-full h-[100vh] bg-body-background-color">
+    <div
+      onMouseUp={onMouseUp}
+      className="w-full h-[100vh] bg-body-background-color"
+    >
       {token ? (
         <div className="max-w-[1535px] mx-auto h-screen flex img sm:w-full bg">
           <div

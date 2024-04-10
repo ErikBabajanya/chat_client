@@ -28,7 +28,7 @@ export default function Verify() {
                   </label>
                   <span className="leading-[1.3125] text-primary-text-color">
                     <input
-                      className="w-full text-[#9e9e9e] absolute bg-transparent z-10 h-full left-0 top-0 pl-[10px]"
+                      className="w-full text-[#9e9e9e] focus:outline-none absolute bg-transparent z-10 h-full left-0 top-0 pl-[10px]"
                       id="code"
                       name="code"
                       autoCapitalize="code"

@@ -5,17 +5,20 @@ import { IoMdArrowRoundBack } from "react-icons/io";
 import { Chat } from "@/context/chat.context";
 import { useContext } from "react";
 import { FaUser } from "react-icons/fa";
+import { MessagesContext } from "@/context/messages.contex";
 export default function MessagesHeader() {
   const ChatContext = useContext(Chat);
-  if (!ChatContext) return;
+  const messagesContext = useContext(MessagesContext);
+  if (!ChatContext || !messagesContext) return;
   const { chatUser, closeChat } = ChatContext;
+  const { openchatInfo } = messagesContext;
   if (!chatUser) return;
   return (
     <div className="w-full h-14">
       <div className="w-full h-14 bg-surface-color relative">
         <button
           className="w-full h-full absolute"
-          //onClick={openchatInfo}
+          onClick={openchatInfo}
         ></button>
         <div className="w-full h-14 px-4">
           <div className="w-full h-14 flex items-center justify-between">

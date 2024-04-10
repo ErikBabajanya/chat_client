@@ -4,10 +4,13 @@ import List from "./list/list";
 import { Chat } from "@/context/chat.context";
 import Settings from "./settings/settgins";
 import { SettingsContext } from "@/context/settings.context";
+import SearchChats from "./searchChats/search.chats";
 
 export default function Chatlist() {
   const settingsContext = useContext(SettingsContext);
-  if (!settingsContext) return;
+  const chatContext = useContext(Chat);
+  if (!settingsContext || !chatContext) return;
+  const { searchChat } = chatContext;
   const { settings } = settingsContext;
   return (
     <div className="w-full h-full">
@@ -18,7 +21,7 @@ export default function Chatlist() {
       ) : (
         <div className="w-full h-full">
           <Header />
-          <List />
+          {searchChat ? <SearchChats /> : <List />}
         </div>
       )}
     </div>

@@ -29,6 +29,7 @@ export default function Login() {
               <div className="flex justify-center">
                 <form
                   onSubmit={login}
+                  autoComplete="off"
                   className="w-[362px] h-[340px] flex justify-around flex-col"
                 >
                   <div className="w-full h-[58px] justify-center hover:bg-message-out-background-color flex items-center rounded-[10px] p-[15px] bg-input-search-border-color">
@@ -49,7 +50,7 @@ export default function Login() {
                       </label>
                       <span className="leading-[1.3125] text-primary-text-color">
                         <input
-                          className="w-full text-[#9e9e9e] absolute bg-transparent z-10 h-full left-0 top-0 pl-[58px]"
+                          className="w-full focus:outline-none text-[#9e9e9e] absolute bg-transparent z-10 h-full left-0 top-0 pl-[16px]"
                           id="phone"
                           name="phone"
                           autoCapitalize="phone"
